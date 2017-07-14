@@ -67,11 +67,9 @@ def main():
 
     logger.info("Executing the process 'workflow' by providing the workflow "
                 "from %s", args.workflow_filename)
-    inputs = [('workflow',
-              wps.ComplexDataInput(json.dumps(workflow), mimeType="text/yaml",
-               encoding=""))]
+    inputs = [('workflow_string', json.dumps(workflow))]
     execution = client.execute(
-        identifier='workflow',
+        identifier='custom_workflow',
         inputs=inputs,
         output=[('output', True),
                 ('logfile', True)])
