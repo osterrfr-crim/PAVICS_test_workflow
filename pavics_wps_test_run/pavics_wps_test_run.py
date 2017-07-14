@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from logging import getLogger, basicConfig, DEBUG
+from logging import getLogger, basicConfig, INFO
 from argparse import ArgumentParser
 from time import sleep
 from lxml import etree
@@ -48,7 +48,7 @@ def main():
     """
     Command line entry point.
     """
-    basicConfig(level=DEBUG)
+    basicConfig(level=INFO)
     logger = getLogger(__name__)
     parser = ArgumentParser()
     parser.add_argument('target')
@@ -90,16 +90,16 @@ def main():
             execution = check_status(url=execution.statusLocation,
                                      verify=False,
                                      sleep_secs=3)
-            logger.debug('response : ' + str(execution.response))
-            logger.debug('status : ' + execution.getStatus())
-            logger.debug('status_message : ' + execution.statusMessage)
-            logger.debug('progress : {0}'.format(execution.percentCompleted))
+            #logger.debug('response : ' + str(execution.response))
+            #logger.debug('status : ' + execution.getStatus())
+            #logger.debug('status_message : ' + execution.statusMessage)
+            #logger.debug('progress : {0}'.format(execution.percentCompleted))
             if execution.isComplete():
                 if execution.isSucceded():
-                    logger.debug('status_message : Succeeded')
+                    logger.info('status_message : Succeeded')
                 else:
                     errors = execution.errors
-                    logger.debug('status_message : ' +
+                    logger.info('status_message : Failed' +
                                  '\n'.join(error.text for error in errors))
         except:
             num_retries += 1
@@ -107,7 +107,6 @@ def main():
                              "Trying again ...")
             sleep(1)
         else:
-            logger.debug("Update job...")
             num_retries = 0
 
 
