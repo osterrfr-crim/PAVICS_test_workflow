@@ -8,6 +8,7 @@ from lxml import etree
 from owslib import wps
 import requests
 import json
+import sys
 
 
 def check_status(url=None, response=None, sleep_secs=2, verify=False):
@@ -99,6 +100,8 @@ def main():
                     errors = execution.errors
                     logger.info('status_message : Failed' +
                                  '\n'.join(error.text for error in errors))
+                    return 1
+
         except:
             num_retries += 1
             logger.exception("Could not read status xml document. "
@@ -106,7 +109,8 @@ def main():
             sleep(1)
         else:
             num_retries = 0
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
